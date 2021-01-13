@@ -1,0 +1,22 @@
+ EQU IObase, #0x80000000
+ EQU ofsLED, #0x100
+ EQU endOfStack, ***       ; initial SP value 
+ EQU breakpoint, #0xFFFFFFFF
+  
+ B main
+IOaddrs DCD IObase 	
+
+void LED( uint LEDstate )   ; set the LED to the given LEDstate
+LED    ; subroutine
+ PUSH { *** }
+ LDR R4, [ *** ]            ; get IO base address
+ STR ***, [r4,ofsLED]       ; set LED state = LEDstate
+ POP { *** }
+
+main
+ MOV ***, ***    ; initialize SP
+
+ MOV ***, ***    ; set up LEDstate 
+ B*** LED
+
+ DCD breakpoint 

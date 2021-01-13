@@ -1,0 +1,29 @@
+ EQU IObase, #0x80000000
+ EQU ofsLED, #0x100
+ EQU ofsSwitch, #0x200
+ EQU ofsHexCntl, ***
+ EQU ofsHexData, ***
+ EQU endOfStack, ***       ; initial SP value 
+ EQU breakpoint, #0xFFFFFFFF
+
+ B main
+IOaddrs DCD IObase 	
+	
+
+; void HexON ( uint initValue ) 
+HexON
+ PUSH { *** }
+ LDR ***, [ *** ]            ; get IO base address
+ MOV ***, ***                ; get control value to turn on hex display digits 
+ ***       ; (insert complete instruction) turn on hex display digits
+ ***       ; (insert complete instruction) display initValue
+ POP { *** }
+
+
+main
+ MOV ***, ***    ; initialize SP
+
+ MOV ***, ***    ; turn on Hex display digits and display a value ... be sure to try different values
+ BL HexON
+
+ DCD breakpoint 

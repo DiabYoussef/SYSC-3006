@@ -1,0 +1,38 @@
+ 
+ EQU IObase, #0x80000000
+ EQU ofsLED, #0x100
+ EQU ofsSwitch, #0x200
+ EQU endOfStack, ***       ; initial SP value 
+ EQU breakpoint, #0xFFFFFFFF
+
+ 
+ B main
+IOaddrs DCD IObase 	
+
+*** ; insert your working LED subroutine here
+
+; int pollSwitchChange ( )
+; poll switch until its value changes
+; return the Switch state after it has changed
+pollSwitchChange    
+ PUSH { *** }
+ LDR ***, [ *** ]            ; get IO base address
+ LDR R1, [***,***]           ; read initial Switch state
+readSwitchAgain
+ LDR ***, [ ***,*** ]        ; read Switch state again
+ CMP  ***,***                ; new state == initial state?
+ B*** readSwitchAgain        ; Yes! --> poll again   
+ POP { *** }
+
+main
+ MOV ***, ***    ; initialize SP
+
+ MOV ***, ***    ; turn LED ON
+ BL LED
+ 
+ *** pollSwitchChange  ; wait for Switch to change
+
+ MOV ***, ***    ; turn LED OFF
+ BL LED
+
+ DCD breakpoint 

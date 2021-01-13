@@ -1,0 +1,67 @@
+ EQU IObase, #0x80000000
+ EQU ofsLED, #0x100
+ EQU ofsSwitch, #0x200
+ EQU ofsHexCntl, ***
+ EQU ofsHexData, ***
+ EQU endOfStack, ***       ; initial SP value 
+ EQU breakpoint, #0xFFFFFFFF
+ EQU switchOFF, #0
+ EQU switchON, #1
+ 
+ B main
+IOaddrs DCD IObase 	
+
+
+*** ; insert your working LED subroutine here
+
+*** ; insert your working pollSwitchChange subroutine here
+
+*** ; insert your working HexON subroutine here
+
+; void HexOUT ( uint displayValue ) 
+HexOUT
+ PUSH { *** }
+ LDR ***, [ *** ]            ; get IO base address
+ ***       ; (insert complete instruction) display displayValue
+ POP { *** }
+
+
+; bcd2 toBCD ( uint Value )
+; assumes Value < 100(dec)
+; returns BCD representation of Value in lower byte of return value
+toBCD
+ PUSH { *** }
+ DIV  ***, ***, ***      ; generate BCD digits
+ *** ***, ***, #0xF      ; isolate most signif digit
+ LSL ***, ***, #0x4      ; put most signif digit in return value
+ LSR ***, ***, #16       ; isolate least signif digit 
+ ***        ; (insert complete instruction) put least signif digit in return value
+ POP { *** }
+
+main
+ MOV ***, ***    ; initialize SP
+
+ MOV R1, #0x0    ; R1 = Count 
+
+ BL ***			 ; display initial value = 00
+
+countEdge		 ; this loop counts rising edges of the switch, stops when Count = 20
+
+ BL  pollSwitchChange   ; wait for switch to change
+
+ *** ***, switchON      ; new state == ON (therefore a rising edge)?
+ B*** ***               ; No --> wait for rising edge
+ 
+ ADD ***, R1, #1    ; increment Count
+
+ MOV ***, ***       ; display current Count
+ BL toBCD
+ BL HexOUT
+
+ CMP ***, #20       ; done counting?
+ B***  countEdge    ; No --> get next switch change
+
+ ***     ; (insert complete instruction) 
+ BL LED  ; Turn LED ON
+ 
+ DCD breakpoint 
