@@ -1,6 +1,6 @@
 # SYSC-3006
 
-Course objectives:
+**Course objectives:**
 
 Engineers working with microprocessors and microcontrollers (including mobile devices)
 must understand computer systems at this level, and these concepts form the
@@ -9,7 +9,7 @@ systems, servers, multiprocessors, and supercomputers). Therefore, this course
 introduces students to basic computer organization and functional design down to the
 gate-level abstraction, and to hardware/software interfacing.
 
-List of topics:
+**List of topics:**
 
 • Computer system architecture
 
@@ -23,7 +23,7 @@ List of topics:
 
 • Peripheral I/O and Interrupts
 
-Learning outcomes:
+**Learning outcomes:**
 
 • Understand how a computer works at hardware/software interface through the
 Instruction Set Architecture (ISA).
